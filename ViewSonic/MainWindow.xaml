@@ -1,0 +1,36 @@
+﻿<Window x:Class="ViewSonic.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ViewSonic"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainWindow_ViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button x:Name="Erase_btn" Content="Erase" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Erase"/>
+            <Button x:Name="Select_btn" Content="Select" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Select"/>
+            <Button x:Name="Rectangle_btn" Content="Rectangle" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Rectangle"/>
+            <Button x:Name="Triangle_btn" Content="Triangle" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Triangle"/>
+            <Button x:Name="Ellipse_btn" Content="Ellipse" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Ellipse"/>
+        </StackPanel>
+        <Canvas Grid.Row="1" Background="White" x:Name="UserCanvas" MouseLeftButtonDown="UserCanvas_MouseLeftButtonDown" MouseMove="UserCanvas_MouseMove" MouseLeftButtonUp="UserCanvas_MouseLeftButtonUp" MouseRightButtonDown="UserCanvas_MouseRightButtonDown">
+            
+        </Canvas>
+    </Grid>
+</Window>
