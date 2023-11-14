@@ -273,5 +273,29 @@ namespace ViewSonic
             }
            
         }
+        /// <summary>
+        /// 載入檔案
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Load_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainWindow_ViewModel ViewModel)
+            {
+                ViewModel.LoadImage(UserCanvas);
+            }
+        }
+        /// <summary>
+        /// 匯出圖檔
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Export_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainWindow_ViewModel ViewModel)
+            {
+                ViewModel.ExportCanvas(UserCanvas);
+            }
+        }
     }
 }

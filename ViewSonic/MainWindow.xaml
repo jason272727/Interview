@@ -23,6 +23,8 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button x:Name="Load_btn" Content="Load" Style="{StaticResource ButtonStyle}" Click="Load_btn_Click"/>
+            <Button x:Name="Export_btn" Content="Export" Style="{StaticResource ButtonStyle}" Click="Export_btn_Click"/>
             <Button x:Name="Erase_btn" Content="Erase" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Erase"/>
             <Button x:Name="Select_btn" Content="Select" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Select"/>
             <Button x:Name="Rectangle_btn" Content="Rectangle" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Rectangle"/>

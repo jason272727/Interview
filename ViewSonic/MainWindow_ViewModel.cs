@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 
@@ -89,6 +91,45 @@ namespace ViewSonic
             ButtonList = parameter;
             ButtonList[1].IsEnabled = false;
             UserAction = "Select";
+        }
+        /// <summary>
+        /// 載入圖片
+        /// </summary>
+        /// <param name="CurrentCanvas"></param>
+        public void LoadImage(Canvas CurrentCanvas)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Image File (*.jpg;*.png)|*.jpg;*.png";
+            bool? result = openFile.ShowDialog();
+            if (result == true)
+            {
+                BitmapImage bitmap = new BitmapImage(new Uri(openFile.FileName, UriKind.Relative));
+                ImageBrush brush = new ImageBrush(bitmap);
+                CurrentCanvas.Background = brush;
+            }
+        }
+        /// <summary>
+        /// 匯出畫布
+        /// </summary>
+        /// <param name="CurrentCanvas"></param>
+        public void ExportCanvas(Canvas CurrentCanvas)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "Image File (*.jpg)|*.jpg";
+            bool? result = saveFile.ShowDialog();
+            if (result == true)
+            {
+                RenderTargetBitmap bmp = new RenderTargetBitmap((int)CurrentCanvas.ActualWidth, (int)CurrentCanvas.ActualHeight, 100.0, 100.0, PixelFormats.Default);
+                bmp.Render(CurrentCanvas);
+
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bmp));
+
+                System.IO.FileStream stream = System.IO.File.Create(saveFile.FileName);
+                encoder.Save(stream);
+                stream.Close();
+            }
+           
         }
         /// <summary>
         /// 當使用者點選功能按鈕時，會在這裡做介面Update，主要是要讓使用者知道目前在甚麼功能模式下。
