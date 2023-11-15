@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ViewSonic"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
+        Name="Painter"
         Title="Painter" Height="450" Width="800">
     <Window.DataContext>
         <local:MainWindow_ViewModel/>
@@ -31,7 +32,7 @@
             <Button x:Name="Triangle_btn" Content="Triangle" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Triangle"/>
             <Button x:Name="Ellipse_btn" Content="Ellipse" Style="{StaticResource ButtonStyle}" Command="{Binding UserCommand}" CommandParameter="Ellipse"/>
         </StackPanel>
-        <Canvas Grid.Row="1" Background="White" x:Name="UserCanvas" MouseLeftButtonDown="UserCanvas_MouseLeftButtonDown" MouseMove="UserCanvas_MouseMove" MouseLeftButtonUp="UserCanvas_MouseLeftButtonUp" MouseRightButtonDown="UserCanvas_MouseRightButtonDown">
+        <Canvas Width="780" Height="370" Grid.Row="1" Background="White" x:Name="UserCanvas" MouseLeftButtonDown="UserCanvas_MouseLeftButtonDown" MouseMove="UserCanvas_MouseMove" MouseLeftButtonUp="UserCanvas_MouseLeftButtonUp" MouseRightButtonDown="UserCanvas_MouseRightButtonDown">
             
         </Canvas>
     </Grid>

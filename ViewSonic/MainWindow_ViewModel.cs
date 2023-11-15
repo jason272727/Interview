@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -114,13 +115,13 @@ namespace ViewSonic
         /// </summary>
         /// <param name="CurrentCanvas"></param>
         public void ExportCanvas(Canvas CurrentCanvas)
-        {
+        {           
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "Image File (*.png)|*.png";
             bool? result = saveFile.ShowDialog();
             if (result == true)
             {              
-                Size size = new Size(CurrentCanvas.RenderSize.Width, CurrentCanvas.RenderSize.Height); //取得Canvas的size
+                Size size = new Size(CurrentCanvas.RenderSize.Width-1, CurrentCanvas.RenderSize.Height-1); //取得Canvas的size
                 CurrentCanvas.Measure(size); //測量UIElement的大小，以利於放置在正確的地方
                 CurrentCanvas.Arrange(new Rect(size));//實際調整元素大小、位置
                 double bpi = 96d;
@@ -133,7 +134,7 @@ namespace ViewSonic
                 using (var file = System.IO.File.OpenWrite(saveFile.FileName))
                 {
                     PngEncoder.Save(file);
-                }
+                }                
             }
         }
         /// <summary>
