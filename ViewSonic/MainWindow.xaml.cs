@@ -294,10 +294,7 @@ namespace ViewSonic
         {
             if (DataContext is MainWindow_ViewModel ViewModel)
             {
-               
-               
-                ViewModel.ExportCanvas(UserCanvas);
-              
+                ViewModel.ExportCanvas(UserCanvas);           
             }
         }
     }
