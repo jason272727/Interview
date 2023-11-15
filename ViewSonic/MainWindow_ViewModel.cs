@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -118,18 +119,22 @@ namespace ViewSonic
             saveFile.Filter = "Image File (*.png)|*.png";
             bool? result = saveFile.ShowDialog();
             if (result == true)
-            {
-                //Rect CanvasSize = VisualTreeHelper.GetContentBounds(CurrentCanvas);
-                RenderTargetBitmap rtb = new RenderTargetBitmap((int)CurrentCanvas.ActualWidth, (int)CurrentCanvas.ActualHeight, 100, 100, PixelFormats.Default);  //Canvas轉換成Bitmap
+            {              
+                Size size = new Size(CurrentCanvas.RenderSize.Width, CurrentCanvas.RenderSize.Height); //取得Canvas的size
+                CurrentCanvas.Measure(size); //測量UIElement的大小，以利於放置在正確的地方
+                CurrentCanvas.Arrange(new Rect(size));//實際調整元素大小、位置
+                double bpi = 96d;
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)size.Width, (int)size.Height, bpi, bpi, PixelFormats.Default);  //Canvas轉換成Bitmap               
                 rtb.Render(CurrentCanvas);
-                var CropBitmap = new CroppedBitmap(rtb, new Int32Rect()); //擷取Canvas範圍
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                var CropBitmap = new CroppedBitmap(rtb, new Int32Rect(0, 0, (int)size.Width, (int)size.Height)); //擷取Canvas範圍
                 BitmapEncoder PngEncoder = new PngBitmapEncoder();
                 PngEncoder.Frames.Add(BitmapFrame.Create(CropBitmap));//把擷取的影像加入至BitmapEncoder編碼
                 using (var file = System.IO.File.OpenWrite(saveFile.FileName))
                 {
                     PngEncoder.Save(file);
-                }               
-            }           
+                }
+            }
         }
         /// <summary>
         /// 當使用者點選功能按鈕時，會在這裡做介面Update，主要是要讓使用者知道目前在甚麼功能模式下。
