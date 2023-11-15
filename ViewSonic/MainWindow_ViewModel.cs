@@ -115,21 +115,21 @@ namespace ViewSonic
         public void ExportCanvas(Canvas CurrentCanvas)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.Filter = "Image File (*.jpg)|*.jpg";
+            saveFile.Filter = "Image File (*.png)|*.png";
             bool? result = saveFile.ShowDialog();
             if (result == true)
             {
-                RenderTargetBitmap bmp = new RenderTargetBitmap((int)CurrentCanvas.ActualWidth, (int)CurrentCanvas.ActualHeight, 100.0, 100.0, PixelFormats.Default);
-                bmp.Render(CurrentCanvas);
-
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bmp));
-
-                System.IO.FileStream stream = System.IO.File.Create(saveFile.FileName);
-                encoder.Save(stream);
-                stream.Close();
-            }
-           
+                //Rect CanvasSize = VisualTreeHelper.GetContentBounds(CurrentCanvas);
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)CurrentCanvas.ActualWidth, (int)CurrentCanvas.ActualHeight, 100, 100, PixelFormats.Default);  //Canvas轉換成Bitmap
+                rtb.Render(CurrentCanvas);
+                var CropBitmap = new CroppedBitmap(rtb, new Int32Rect()); //擷取Canvas範圍
+                BitmapEncoder PngEncoder = new PngBitmapEncoder();
+                PngEncoder.Frames.Add(BitmapFrame.Create(CropBitmap));//把擷取的影像加入至BitmapEncoder編碼
+                using (var file = System.IO.File.OpenWrite(saveFile.FileName))
+                {
+                    PngEncoder.Save(file);
+                }               
+            }           
         }
         /// <summary>
         /// 當使用者點選功能按鈕時，會在這裡做介面Update，主要是要讓使用者知道目前在甚麼功能模式下。
